@@ -1,6 +1,43 @@
-<form class="w-50">
-    <input name="product" placeholder="Producto" class="form-control m-3" [(ngModel)]="item.product">
-    <input name="price" placeholder="Precio" class="form-control m-3" [(ngModel)]="item.price">
-    <input name="quantity" placeholder="Cantidad" class="form-control m-3" [(ngModel)]="item.quantity">
-    <button class="btn btn-primary m-3">Nuevo item</button>
+<form class="w-50" (ngSubmit)="onSubmit(itemForm)" #itemForm="ngForm">
+    <input name="product" placeholder="Producto" class="form-control m-3" [(ngModel)]="item.product" required minlength="5" #product="ngModel">
+    @if(product.invalid && (product.dirty || product.touched)){
+        @if (product.errors!['required']) {
+            <div class="text-danger mx-3">
+                * Nombre del producto es requerido.
+            </div>
+        }
+        @if (product.errors!['minlength']) {
+            <div class="text-danger mx-3">
+                * El nombre del producto tiene que tener mínimo 5 caracteres.
+            </div>
+        }
+    }
+    <input type="number" name="price" placeholder="Precio" class="form-control m-3" [(ngModel)]="item.price" required min="10" #price="ngModel">
+    @if(price.invalid && (price.dirty || price.touched)){
+        @if (price.errors!['required']) {
+            <div class="text-danger mx-3">
+                * Precio del producto es requerido.
+            </div>
+        }
+        @if (price.errors!['min']) {
+            <div class="text-danger mx-3">
+                * El precio del producto tiene que tener mínimo 10.
+            </div>
+        }
+    }
+    <input type="number" name="quantity" placeholder="Cantidad" class="form-control m-3" [(ngModel)]="item.quantity" required min="1" #quantity="ngModel">
+    @if(quantity.invalid && (quantity.dirty || quantity.touched)){
+        @if (quantity.errors!['required']) {
+            <div class="text-danger mx-3">
+                * Cantidad del producto es requerida.
+            </div>
+        }
+        @if (quantity.errors!['min']) {
+            <div class="text-danger mx-3">
+                * La cantidad del producto tiene que ser mínimo 1.
+            </div>
+        }
+    }
+
+    <button class="btn btn-primary m-3" [disabled]="!itemForm.valid">Nuevo item</button>
 </form>

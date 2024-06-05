@@ -15,7 +15,7 @@
             </div>
             <list-items [items]="invoice.items" (removeEventEmitter)="removeItem($event)"></list-items>
             <total [total]="invoice.total"></total>
-            <form-item></form-item>
+            <form-item (addItemEventEmitter)="addItem($event)"></form-item>
         </div>
     </div>
 </div>
