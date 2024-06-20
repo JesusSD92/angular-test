@@ -4,19 +4,22 @@ import { Product } from '../../models/product';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { CartItem } from '../../models/cartItem';
+import { SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CatalogComponent, CartItemComponent],
-  templateUrl: './cart.component.html'
+  imports: [CatalogComponent, CartItemComponent, SidebarModule, ButtonModule],
+  templateUrl: './cart.component.html',
+  styleUrl: './cart.component.css'
 })
 export class CartComponent implements OnInit {
 
   products: Product[] = [];
   items: CartItem[] = [];
   total: number = 0;
-  showCart: boolean = false;
+  sidebarVisible: boolean = false;
   
   constructor(private productService: ProductService) {}
 
@@ -58,9 +61,5 @@ export class CartComponent implements OnInit {
 
   saveSession(): void {
     sessionStorage.setItem('cart', JSON.stringify(this.items));
-  }
-
-  openCart(): void {
-    this.showCart = !this.showCart;
   }
 }
