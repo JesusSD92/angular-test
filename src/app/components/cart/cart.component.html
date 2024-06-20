@@ -1,12 +1,22 @@
 <div class="container">
-    <h2>Catálogo de productos</h2>
-    <catalog [products]="products" (productEventEmitter)="onAddCart($event)"></catalog>
-    @if(items.length>0){
-        <cart-item 
-        [items]="items" 
-        [total]="total"
-        (idProductEventEmitter)="onDeleteCart($event)"></cart-item>
-    }@else {
-        <div class="alert alert-warning">No hay productos en el carro</div>
-    }
+    <button (click)="openCart()" class="btn btn-secondary float-end">Cart ({{items.length}})</button>
+    <h2>Productos</h2>
+    
+    <div class="row">
+        <div [className]=" showCart ? 'col-9' : 'col'">
+            <catalog [products]="products" (productEventEmitter)="onAddCart($event)"></catalog>
+        </div>
+        @if(showCart){
+            <div class="col-3">
+                @if(items.length>0){
+                    <cart-item 
+                    [items]="items" 
+                    [total]="total"
+                    (idProductEventEmitter)="onDeleteCart($event)"></cart-item>
+                }@else {
+                    <div class="alert alert-warning">No hay productos en el carro</div>
+                }
+            </div>
+        }
+    </div>
 </div>

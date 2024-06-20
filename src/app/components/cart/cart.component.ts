@@ -16,6 +16,7 @@ export class CartComponent implements OnInit {
   products: Product[] = [];
   items: CartItem[] = [];
   total: number = 0;
+  showCart: boolean = false;
   
   constructor(private productService: ProductService) {}
 
@@ -57,5 +58,9 @@ export class CartComponent implements OnInit {
 
   saveSession(): void {
     sessionStorage.setItem('cart', JSON.stringify(this.items));
+  }
+
+  openCart(): void {
+    this.showCart = !this.showCart;
   }
 }
