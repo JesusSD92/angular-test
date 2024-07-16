@@ -11,6 +11,7 @@ import { User } from '../../../models/user';
 export class FormUserComponent {
 
   @Input() user: User;
+  @Output() openEventEmitter = new EventEmitter();
   @Output() newUserEventEmitter: EventEmitter<User> = new EventEmitter();
 
   constructor() {
@@ -20,7 +21,6 @@ export class FormUserComponent {
   onSubmit(userForm: NgForm): void {
     if(userForm.valid) {
       this.newUserEventEmitter.emit(this.user);
-      console.log(this.user);
     }
     userForm.reset();
     userForm.resetForm();
@@ -28,5 +28,9 @@ export class FormUserComponent {
 
   onClear(userForm: NgForm): void {
     userForm.resetForm();
+  }
+
+  onOpenClose(): void {
+    this.openEventEmitter.emit();
   }
 }

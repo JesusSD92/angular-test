@@ -9,15 +9,14 @@ import Swal from 'sweetalert2';
   selector: 'app-user',
   standalone: true,
   imports: [UserviewComponent, FormUserComponent],
-  templateUrl: './user.component.html'
+  templateUrl: './user.component.html',
+  styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
 
-  title: string = "Listado de usuarios";
-
   users: User[] = [];
-
   selectedUser: User;
+  open: boolean = false;
 
   constructor(private userService: UserService) {
     this.selectedUser = new User();
@@ -39,10 +38,12 @@ export class UserComponent implements OnInit {
       icon: "success"
     });
     this.selectedUser = new User();
+    this.setOpen();
   }
 
   updateUser(user: User): void {
     this.selectedUser = {... user};
+    this.open = true;
   }
 
   removeUser(id: number): void {
@@ -64,5 +65,9 @@ export class UserComponent implements OnInit {
         });
       }
     });
+  }
+
+  setOpen() : void {
+    this.open = !this.open;
   }
 }
