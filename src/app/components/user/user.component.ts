@@ -28,13 +28,17 @@ export class UserComponent implements OnInit {
 
   addUser(user: User): void {
     if(user.id > 0){
-      this.users = this.users.map(u => (u.id === user.id) ? {... user} : u);
+      this.userService.update(user).subscribe(userUpdated => {
+        this.users = this.users.map(u => (u.id === userUpdated.id) ? {... userUpdated} : u);
+      })
     }else{
-      this.users = [... this.users, {... user}];
+      this.userService.create(user).subscribe(userCreated => {
+        this.users = [... this.users, {... userCreated}];
+      })
     }
     Swal.fire({
       title: "Exito!",
-      text: "Usuario creado con éxito",
+      text: "Usuario guardado con éxito",
       icon: "success"
     });
     this.selectedUser = new User();
@@ -57,7 +61,9 @@ export class UserComponent implements OnInit {
       confirmButtonText: "Si!"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.users = this.users.filter(user => user.id !== id);
+        this.userService.delete(id).subscribe(() => {
+          this.users = this.users.filter(user => user.id !== id);
+        })
         Swal.fire({
           title: "Borrado!",
           text: "Usuario borrado con éxito",
