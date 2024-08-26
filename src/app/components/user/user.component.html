@@ -17,6 +17,10 @@
                 (idUserEventEmitter)="removeUser($event)" 
                 (userEventEmitter)="updateUser($event)">
             </userview>
+            <paginator
+                [paginator]="paginator"
+                [url]="url">
+            </paginator>
         </div>
     </div>
 </div>
