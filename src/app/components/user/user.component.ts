@@ -4,24 +4,33 @@ import { User } from '../../models/user';
 import { UserviewComponent } from './userview/userview.component';
 import { FormUserComponent } from './form-user/form-user.component';
 import Swal from 'sweetalert2';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PaginatorComponent } from "../paginator/paginator.component";
+import { AuthService } from '../../services/auth.service';
+import { SharingDataService } from '../../services/sharing-data.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [UserviewComponent, FormUserComponent, PaginatorComponent],
+  imports: [UserviewComponent, FormUserComponent, PaginatorComponent, RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })
 export class UserComponent implements OnInit {
+  
   users: User[] = [];
   selectedUser: User;
   open: boolean = false;
   paginator: any = {};
   url: string = '/usuarios/page';
 
-  constructor(private userService: UserService, private route: ActivatedRoute) {
+  constructor(
+    private userService: UserService, 
+    private route: ActivatedRoute, 
+    private authService: AuthService, 
+    private sharingData: SharingDataService, 
+    private router: Router
+  ) {
     this.selectedUser = new User();
   }
 
@@ -30,8 +39,43 @@ export class UserComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const page: number = +(params.get('page') || '0');
       this.userService.findAllPageable(page).subscribe((pageable) => {
-        this.users = pageable.content as User[]
+        this.users = pageable.content as User[];
         this.paginator = pageable;
+      });
+    });
+    this.handlerLogin();
+  }
+
+  handlerLogin(){
+    this.sharingData.handlerLoginEventEmitter.subscribe(({username, password}) => {
+      console.log(username + ' ' + password);
+
+      this.authService.login({username, password}).subscribe({
+        next: response => {
+          const token = response.token;
+          const payload = this.authService.getPayload(token);
+          const user = {username: payload.username};
+          const login = {
+            user,
+            isAuth: true,
+            isAdmin: payload.isAdmin
+          }
+
+          this.authService.user = login;
+          this.authService.token = token;
+          this.router.navigate([this.url, 0]);
+        },
+        error: error => {
+          if(error.status === 401){
+            Swal.fire(
+              'Error de autorización',
+              'Username o contraseña incorrectas',
+              'error'
+            );
+          }else{
+            throw error;
+          }
+        }
       });
     });
   }
