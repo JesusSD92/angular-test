@@ -48,18 +48,20 @@
                             }
                         }
                     </div>
-                    <div>
-                        <input placeholder="Contraseña" type="password" name="password" [(ngModel)]="user.password"
-                            class="form-control my-2" required minlength="6" #password="ngModel" />
-                        @if(password.invalid && (password.dirty || password.touched)){
-                            @if(password.errors!['required']){
-                                <div class="text-danger">Password es requerido</div>
+                    @if(user.id === 0 || user.id === undefined){
+                        <div>
+                            <input placeholder="Contraseña" type="password" name="password" [(ngModel)]="user.password"
+                                class="form-control my-2" required minlength="6" #password="ngModel" />
+                            @if(password.invalid && (password.dirty || password.touched)){
+                                @if(password.errors!['required']){
+                                    <div class="text-danger">Password es requerido</div>
+                                }
+                                @if(password.errors!['minlength']){
+                                    <div class="text-danger">Minimo 6 caracteres</div>
+                                }
                             }
-                            @if(password.errors!['minlength']){
-                                <div class="text-danger">Minimo 6 caracteres</div>
-                            }
-                        }
-                    </div>
+                        </div>
+                    }
                     <div>
                         <button type="submit" class="btn btn-primary my-2" [disabled]="userForm.invalid">{{user.id > 0 ? 'Editar': 'Crear'}}</button>
                         <button type="button" class="btn btn-secondary my-2 mx-4" (click)="onClear(userForm)">Limpiar</button>
@@ -67,7 +69,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onOpenClose()">Cerrar</button>
+                @if(user.id > 0){
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onOpenClose()">Cerrar</button>
+                }@else{
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" routerLink="/usuarios">Volver</button>
+                }
             </div>
         </div>
     </div>

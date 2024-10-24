@@ -20,6 +20,16 @@ export class AuthService {
   login({username, password}: any) : Observable<any>{
     return this.http.post<any>(this.url, { username, password });
   }
+
+  logout(){
+    this._token = undefined;
+    this._user = {
+      user: undefined,
+      isAuth: false,
+      isAdmin: false
+    }
+    sessionStorage.clear();
+  }
   
   get user() {
     if(this._user.isAuth){
@@ -56,5 +66,13 @@ export class AuthService {
       return JSON.parse(atob(token.split('.')[1]));
     }
     return null;
+  }
+
+  isAdmin(){
+    return this.user.isAdmin;
+  }
+
+  isAuthenticated(){
+    return this.user.isAuth;
   }
 }

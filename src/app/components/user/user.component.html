@@ -1,5 +1,7 @@
 <div class="container my-2">
-    <button class="btn btn-primary" routerLink="/userForm">Crear Usuario</button>
+    @if(isAdmin){
+        <button class="btn btn-primary" routerLink="/userForm">Crear Usuario</button>
+    }
     <div class="row">
         @if(open) {
             <div class="abrir-modal animacion fadeIn">

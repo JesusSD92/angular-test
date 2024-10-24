@@ -46,9 +46,12 @@ export class UserComponent implements OnInit {
     this.handlerLogin();
   }
 
+  get isAdmin() {
+    return this.authService.isAdmin();
+  }
+
   handlerLogin(){
     this.sharingData.handlerLoginEventEmitter.subscribe(({username, password}) => {
-      console.log(username + ' ' + password);
 
       this.authService.login({username, password}).subscribe({
         next: response => {
@@ -63,7 +66,7 @@ export class UserComponent implements OnInit {
 
           this.authService.user = login;
           this.authService.token = token;
-          this.router.navigate([this.url, 0]);
+          this.router.navigate(['welcome']);
         },
         error: error => {
           if(error.status === 401){

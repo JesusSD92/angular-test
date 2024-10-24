@@ -6,6 +6,7 @@ import { UserComponent } from './components/user/user.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { authGuard } from './guards/auth.guard';
 import { FormUserComponent } from './components/user/form-user/form-user.component';
+import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'welcome', pathMatch: 'full' },
@@ -15,5 +16,6 @@ export const routes: Routes = [
     { path: "userForm", component: FormUserComponent, canActivate: [authGuard]},
     { path: "usuarios", component: UserComponent },
     { path: "usuarios/page/:page", component: UserComponent},
-    { path: "login", component: AuthComponent }
+    { path: "login", component: AuthComponent },
+    { path: "forbidden", component: AccessDeniedComponent}
 ];

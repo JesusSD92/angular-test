@@ -17,11 +17,21 @@
                 <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" routerLink="/usuarios">Usuarios</a>
                 </li>
+                
             </ul>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarAuth">
             <span class="nav-item nav-link text-primary mx-3">
-                <a class="btn btn-outline-primary" routerLink="/login">Login</a>
+                @if(login.isAuth){
+                    <button class="btn btn-outline-primary" (click)="options()">{{ login.user.username }}</button>
+                    @if(toggle){
+                        <div>
+                            <button class="btn btn-outline-secondary" (click)="logout()">Logout</button>    
+                        </div>
+                    }
+                }@else{
+                    <a class="btn btn-outline-primary" routerLink="/login">Login</a>
+                }
             </span>
         </div>
     </div>
