@@ -41,7 +41,8 @@ export class FormUserComponent implements OnInit {
     userForm.resetForm();
   }
 
-  onOpenClose(): void {
+  onOpenClose(userForm: NgForm): void {
     this.openEventEmitter.emit();
+    userForm.reset()
   }
 }

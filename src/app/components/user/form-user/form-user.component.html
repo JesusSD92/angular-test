@@ -69,11 +69,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                @if(user.id > 0){
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onOpenClose()">Cerrar</button>
-                }@else{
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" routerLink="/usuarios">Volver</button>
-                }
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onOpenClose(userForm)">Cerrar</button>
             </div>
         </div>
     </div>

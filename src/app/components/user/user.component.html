@@ -1,6 +1,6 @@
 <div class="container my-2">
     @if(isAdmin){
-        <button class="btn btn-primary" routerLink="/userForm">Crear Usuario</button>
+        <button class="btn btn-primary" (click)="setOpen()">Crear Usuario</button>
     }
     <div class="row">
         @if(open) {
